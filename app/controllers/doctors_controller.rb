@@ -1,5 +1,5 @@
 class DoctorsController < ApplicationController
-  before_action :set_doctor, only: [:show, :update, :destroy]
+  before_action :set_doctor, only: [:show, :update, :destroy, :get_my_appointments_today]
 
   # GET /doctors
   def index
@@ -11,6 +11,12 @@ class DoctorsController < ApplicationController
   # GET /doctors/1
   def show
     render json: @doctor
+  end
+
+  def get_my_appointments_today
+    todays_appointments = @doctor.doctor_appointments.where('apt_from >=?',
+      Time.zone.now.beginning_of_day)
+    render json: todays_appointments
   end
 
   # POST /doctors

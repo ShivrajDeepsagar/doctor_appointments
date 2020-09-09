@@ -13,6 +13,12 @@ class DoctorAppointmentsController < ApplicationController
     render json: @doctor_appointment
   end
 
+  def get_appointments_for_the_day
+    todays_appointments = DoctorAppointment.where('apt_from >=?',
+      Time.zone.now.beginning_of_day)
+    render json: todays_appointments  
+  end
+
   # POST /doctor_appointments
   def create
     @doctor_appointment = DoctorAppointment.new(doctor_appointment_params)
